@@ -1,8 +1,4 @@
-import { APIResponse, Settings } from "./types"
-
-export const APISettings: Settings = {
-  count: 1000
-}
+import { APIResponse } from "./types"
 
 export const APITypes: APIResponse = {
   'id': 'datatype.uuid',
@@ -13,6 +9,9 @@ export const APITypes: APIResponse = {
   'transaction_info': {
     'currency': 'finance.currencyName',
     'amount': 'finance.amount',
+    'nested' : {
+      'inner_nested' : 'datatype.number'
+    }
   },
   'country': {
     'id': 'datatype.uuid',

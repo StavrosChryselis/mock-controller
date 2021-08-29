@@ -6,6 +6,6 @@ export type APIResponse = {
 
 export type Settings = {
   count: number
-  filter?: any
-  order?: any
+  filters: any
+  orders: any[]
 }
