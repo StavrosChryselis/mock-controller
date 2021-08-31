@@ -1,11 +1,11 @@
-import { APIResponse, Settings } from './types'
+import { ApiTemplate, Settings } from './types'
 import { FakerType } from './faker_types'
 import faker from 'faker'
 
 const withReference = <T1,T2>(obj:T1,callback:(obj:T1) => T2):T2 => callback(obj)
 const withValue = <T1,T2>(obj:T1,callback:(obj:T1) => T2):T2 => callback({...obj})
 
-const objectMap = (obj:APIResponse, fn:(value:FakerType | APIResponse,key:string,index:number) => any):any =>
+const objectMap = (obj:ApiTemplate, fn:(value:FakerType | ApiTemplate,key:string,index:number) => any):any =>
   Object.fromEntries(Object.entries(obj).map(([k, v], i) => [k, fn(v, k, i)]))
 
 const recursiveTraverse = (obj:any,keys:string[]):any => 
@@ -17,12 +17,12 @@ const generate = (objectPath:string):any =>
 const retrieve = (objectPath:string,object:any):any => 
   recursiveTraverse(object,objectPath.split('.'))
 
-const generateRecord = (type:APIResponse):any => 
+const generateRecord = (type:ApiTemplate):any => 
   objectMap(type, value => typeof value !== 'object' 
     ? generate(value) 
     : generateRecord(value))
 
-export const mock = (type:APIResponse, settings:Settings):any[] => 
+export const mock = (type:ApiTemplate, settings:Settings):any[] => 
   withReference(Array.from(Array(settings.count)).map(() => 
     generateRecord(type)), records => settings.orders && settings.orders.length != 0
       ? withReference([settings.orders[0][0],settings.orders[0][1] == 'asc'],([fieldPath,isAsc]) => 

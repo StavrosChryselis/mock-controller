@@ -1,7 +1,7 @@
 import { FakerType } from "./faker_types";
 
-export type APIResponse = {
-  [key: string]: FakerType | APIResponse
+export type ApiTemplate = {
+  [key: string]: FakerType | ApiTemplate
 }
 
 export type Settings = {
